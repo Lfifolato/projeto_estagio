@@ -6,8 +6,8 @@ export const addSwagger = (app: INestApplication) => {
   app.use('/api', new SwaggerAuthMiddleware().use);
 
   const config = new DocumentBuilder()
-    .setTitle('Api Templante')
-    .setDescription('Templante')
+    .setTitle('Api Estagio')
+    .setDescription('Estagio')
     .setVersion('0.0.01');
 
   const configBuilded = config.build();
