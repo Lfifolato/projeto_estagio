@@ -1,0 +1,48 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model config {
+  id          Int    @id @default(autoincrement())
+  key         String
+  value       String
+  description String
+
+  @@index([key])
+  @@map("tb_config")
+}
+
+model LogRequest {
+  id        Int      @id @default(autoincrement())
+  route     String
+  method    String
+  body      Json     @db.JsonB
+  timestamp DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([route])
+  @@map("tb_logrequest")
+}
+
+model user {
+  id                 Int       @id @default(autoincrement())
+  name               String
+  email              String    @unique
+  phone              String
+  password           String
+  status             Boolean   @default(true)
+  email_confirmation Boolean   @default(false)
+  token_confirmation String?
+  token_expiration   DateTime?
+  createdAt          DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime  @updatedAt @db.Timestamptz(6)
+
+  @@index([token_confirmation])
+  @@index([status])
+  @@map("tb_user")
+}
